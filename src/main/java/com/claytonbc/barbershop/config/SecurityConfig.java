@@ -30,6 +30,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
 
+                        .requestMatchers(HttpMethod.GET, "/services").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/services").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.PUT, "/services/**").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.DELETE, "/services/**").hasRole("OWNER")
+
                         .requestMatchers(HttpMethod.POST, "/appointments").hasRole("CLIENT")
                         .requestMatchers(HttpMethod.GET, "/appointments").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/appointments/**").authenticated()
