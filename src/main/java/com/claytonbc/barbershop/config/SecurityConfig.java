@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,19 +24,28 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
 
+                .sessionManagement(sess ->
+                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
                 .authorizeHttpRequests(auth -> auth
+
+                        // AUTH (publico)
                         .requestMatchers("/auth/**").permitAll()
 
                         // CUSTOMERS
                         .requestMatchers(HttpMethod.GET, "/customers").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.GET, "/customers/me").authenticated() // 🔥 EXPLÍCITO
                         .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
 
+                        // SERVICES
                         .requestMatchers(HttpMethod.GET, "/services").permitAll()
                         .requestMatchers(HttpMethod.POST, "/services").hasRole("OWNER")
                         .requestMatchers(HttpMethod.PUT, "/services/**").hasRole("OWNER")
                         .requestMatchers(HttpMethod.DELETE, "/services/**").hasRole("OWNER")
 
+                        // APPOINTMENTS
                         .requestMatchers(HttpMethod.GET, "/appointments")
                         .hasAnyRole("CLIENT", "OWNER")
 
@@ -51,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/appointments/**")
                         .authenticated()
 
+                        // QUALQUER OUTRO
                         .anyRequest().authenticated()
                 )
 
