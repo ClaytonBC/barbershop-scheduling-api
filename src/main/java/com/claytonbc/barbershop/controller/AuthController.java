@@ -1,6 +1,7 @@
 package com.claytonbc.barbershop.controller;
 
 import com.claytonbc.barbershop.dto.AuthResponse;
+import com.claytonbc.barbershop.dto.CreateCustomerRequest;
 import com.claytonbc.barbershop.dto.LoginRequest;
 import com.claytonbc.barbershop.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody CreateCustomerRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
