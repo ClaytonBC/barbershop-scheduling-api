@@ -1,6 +1,6 @@
-package com.claytonbc.barbearia.repository;
+package com.claytonbc.barbershop.repository;
 
-import com.claytonbc.barbearia.entity.Customer;
+import com.claytonbc.barbershop.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

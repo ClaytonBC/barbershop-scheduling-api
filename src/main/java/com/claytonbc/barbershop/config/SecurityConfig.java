@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.config;
+package com.claytonbc.barbershop.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

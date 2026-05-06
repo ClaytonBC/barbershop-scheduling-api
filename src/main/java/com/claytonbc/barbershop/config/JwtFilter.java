@@ -1,8 +1,8 @@
-package com.claytonbc.barbearia.config;
+package com.claytonbc.barbershop.config;
 
-import com.claytonbc.barbearia.entity.Customer;
-import com.claytonbc.barbearia.repository.CustomerRepository;
-import com.claytonbc.barbearia.service.JwtService;
+import com.claytonbc.barbershop.entity.Customer;
+import com.claytonbc.barbershop.repository.CustomerRepository;
+import com.claytonbc.barbershop.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

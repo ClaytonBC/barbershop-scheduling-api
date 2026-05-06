@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.exception;
+package com.claytonbc.barbershop.exception;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(String message) {

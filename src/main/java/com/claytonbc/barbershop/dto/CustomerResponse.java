@@ -1,6 +1,6 @@
-package com.claytonbc.barbearia.dto;
+package com.claytonbc.barbershop.dto;
 
-import com.claytonbc.barbearia.enums.Perfil;
+import com.claytonbc.barbershop.enums.Perfil;
 
 public record CustomerResponse(
         Long id,

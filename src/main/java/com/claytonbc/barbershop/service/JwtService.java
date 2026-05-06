@@ -1,6 +1,6 @@
-package com.claytonbc.barbearia.service;
+package com.claytonbc.barbershop.service;
 
-import com.claytonbc.barbearia.entity.Customer;
+import com.claytonbc.barbershop.entity.Customer;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.dto;
+package com.claytonbc.barbershop.dto;
 
 import java.time.LocalDateTime;
 

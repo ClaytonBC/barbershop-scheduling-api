@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.exception;
+package com.claytonbc.barbershop.exception;
 
 public class EmailAlreadyExistsException extends RuntimeException{
 

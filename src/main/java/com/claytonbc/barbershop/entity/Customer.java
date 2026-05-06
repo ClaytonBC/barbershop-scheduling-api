@@ -1,6 +1,6 @@
-package com.claytonbc.barbearia.entity;
+package com.claytonbc.barbershop.entity;
 
-import com.claytonbc.barbearia.enums.Perfil;
+import com.claytonbc.barbershop.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

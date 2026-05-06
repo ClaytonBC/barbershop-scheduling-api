@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.enums;
+package com.claytonbc.barbershop.enums;
 
 public enum Perfil {
     ADMIN,

@@ -1,10 +1,10 @@
-package com.claytonbc.barbearia;
+package com.claytonbc.barbershop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BarbeariaAgendamentoApiApplicationTests {
+class BarbershopSchedulingApiApplicationTests {
 
 	@Test
 	void contextLoads() {

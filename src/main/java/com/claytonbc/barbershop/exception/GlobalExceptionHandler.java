@@ -1,6 +1,6 @@
-package com.claytonbc.barbearia.exception;
+package com.claytonbc.barbershop.exception;
 
-import com.claytonbc.barbearia.dto.ErrorResponse;
+import com.claytonbc.barbershop.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

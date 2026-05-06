@@ -1,8 +1,8 @@
-package com.claytonbc.barbearia.controller;
+package com.claytonbc.barbershop.controller;
 
-import com.claytonbc.barbearia.dto.AuthResponse;
-import com.claytonbc.barbearia.dto.LoginRequest;
-import com.claytonbc.barbearia.service.AuthService;
+import com.claytonbc.barbershop.dto.AuthResponse;
+import com.claytonbc.barbershop.dto.LoginRequest;
+import com.claytonbc.barbershop.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

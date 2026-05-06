@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.claytonbc</groupId>
-	<artifactId>barbearia-agendamento-api</artifactId>
+	<artifactId>barbershop-scheduling-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

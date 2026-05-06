@@ -1,4 +1,4 @@
-package com.claytonbc.barbearia.dto;
+package com.claytonbc.barbershop.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

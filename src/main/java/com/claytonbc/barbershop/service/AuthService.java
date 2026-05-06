@@ -1,9 +1,9 @@
-package com.claytonbc.barbearia.service;
+package com.claytonbc.barbershop.service;
 
-import com.claytonbc.barbearia.dto.AuthResponse;
-import com.claytonbc.barbearia.dto.LoginRequest;
-import com.claytonbc.barbearia.entity.Customer;
-import com.claytonbc.barbearia.repository.CustomerRepository;
+import com.claytonbc.barbershop.dto.AuthResponse;
+import com.claytonbc.barbershop.dto.LoginRequest;
+import com.claytonbc.barbershop.entity.Customer;
+import com.claytonbc.barbershop.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
