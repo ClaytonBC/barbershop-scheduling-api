@@ -22,10 +22,10 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final CustomerRepository customerRepository;
 
-    public AppointmentResponse create(CreateAppointmentRequest request) {
+    public AppointmentResponse create(CreateAppointmentRequest request, String email) {
 
-        Customer client = customerRepository.findById(request.clientId())
-                .orElseThrow(() -> new NotFoundException("Client not found"));
+        Customer client = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         Customer barber = customerRepository.findById(request.barberId())
                 .orElseThrow(() -> new NotFoundException("Barber not found"));
@@ -34,30 +34,34 @@ public class AppointmentService {
             throw new BusinessException("Selected user is not a barber");
         }
 
+        if (request.startTime() == null || request.endTime() == null) {
+            throw new BusinessException("Start and end time are required");
+        }
+
         if (!request.startTime().isBefore(request.endTime())) {
             throw new BusinessException("Invalid time range");
         }
 
-        List<Appointment> conflicts = appointmentRepository.findConflicts(
-                barber.getId(),
-                request.startTime(),
-                request.endTime()
-        );
+        boolean hasConflict = appointmentRepository
+                .existsByBarberIdAndStatusNotAndStartTimeLessThanAndEndTimeGreaterThan(
+                        barber.getId(),
+                        Status.CANCELLED,
+                        request.endTime(),
+                        request.startTime()
+                );
 
-        if (!conflicts.isEmpty()) {
-            throw new BusinessException("Time slot already booked");
+        if (hasConflict) {
+            throw new BusinessException("Time slot not available");
         }
 
         Appointment appointment = new Appointment();
-        appointment.setStartTime(request.startTime());
-        appointment.setEndTime(request.endTime());
         appointment.setClient(client);
         appointment.setBarber(barber);
-        appointment.setStatus(Status.PENDING);
+        appointment.setStartTime(request.startTime());
+        appointment.setEndTime(request.endTime());
+        appointment.setStatus(Status.SCHEDULED);
 
-        Appointment saved = appointmentRepository.save(appointment);
-
-        return toResponse(saved);
+        return toResponse(appointmentRepository.save(appointment));
     }
 
     public List<AppointmentResponse> findAll(String email) {
@@ -65,35 +69,29 @@ public class AppointmentService {
         Customer user = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        List<Appointment> appointments;
-
-        if (user.getRole() == Perfil.CLIENT) {
-            appointments = appointmentRepository.findByClientId(user.getId());
-        } else if (user.getRole() == Perfil.BARBER) {
-            appointments = appointmentRepository.findByBarberId(user.getId());
-        } else {
-            appointments = appointmentRepository.findAll();
+        if (user.getRole() == Perfil.OWNER) {
+            return appointmentRepository.findAll()
+                    .stream()
+                    .map(this::toResponse)
+                    .toList();
         }
 
-        return appointments.stream().map(this::toResponse).toList();
+        return appointmentRepository.findByClientId(user.getId())
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     public void delete(Long id, String email) {
 
-        Customer user = customerRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Appointment not found"));
 
-        Customer target = customerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Customer not found"));
-
-        boolean isOwner = user.getRole() == Perfil.OWNER;
-        boolean isSelf = user.getId().equals(id);
-
-        if (!isOwner && !isSelf) {
-            throw new BusinessException("Access denied");
+        if (!appointment.getClient().getEmail().equals(email)) {
+            throw new BusinessException("You can only cancel your own appointment");
         }
 
-        customerRepository.delete(target);
+        appointmentRepository.delete(appointment);
     }
 
     private AppointmentResponse toResponse(Appointment a) {
@@ -106,4 +104,34 @@ public class AppointmentService {
                 a.getStatus()
         );
     }
+
+    public AppointmentResponse findById(Long id, String email) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Appointment not found"));
+
+        Customer user = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        if (user.getRole() == Perfil.OWNER) {
+            return toResponse(appointment);
+        }
+
+        if (appointment.getClient().getEmail().equals(email)) {
+            return toResponse(appointment);
+        }
+
+        throw new BusinessException("Access denied");
+    }
+
+    public AppointmentResponse updateStatus(Long id, Status status) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Appointment not found"));
+
+        appointment.setStatus(status);
+
+        return toResponse(appointmentRepository.save(appointment));
+    }
+
 }

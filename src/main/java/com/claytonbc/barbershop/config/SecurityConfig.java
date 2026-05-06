@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
 
+                        // CUSTOMERS
                         .requestMatchers(HttpMethod.GET, "/customers").hasRole("OWNER")
                         .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
@@ -35,9 +36,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/services/**").hasRole("OWNER")
                         .requestMatchers(HttpMethod.DELETE, "/services/**").hasRole("OWNER")
 
-                        .requestMatchers(HttpMethod.POST, "/appointments").hasRole("CLIENT")
-                        .requestMatchers(HttpMethod.GET, "/appointments").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/appointments/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/appointments")
+                        .hasAnyRole("CLIENT", "OWNER")
+
+                        .requestMatchers(HttpMethod.GET, "/appointments/**")
+                        .authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/appointments")
+                        .hasRole("CLIENT")
+
+                        .requestMatchers(HttpMethod.PATCH, "/appointments/**")
+                        .hasRole("OWNER")
+
+                        .requestMatchers(HttpMethod.DELETE, "/appointments/**")
+                        .authenticated()
 
                         .anyRequest().authenticated()
                 )

@@ -28,7 +28,21 @@ public class DatabaseSeeder {
 
                 repository.save(admin);
 
-                System.out.println("🔥 Admin user created: admin@barbershop.com / admin123");
+                System.out.println("🔥 Admin criado: admin@barbershop.com / admin123");
+            }
+
+            if (repository.findByEmail("barber@barbershop.com").isEmpty()) {
+
+                Customer barber = new Customer();
+                barber.setName("Barber");
+                barber.setEmail("barber@barbershop.com");
+                barber.setPassword(encoder.encode("123456"));
+                barber.setRole(Perfil.BARBER);
+                barber.setActive(true);
+
+                repository.save(barber);
+
+                System.out.println("💈 Barber criado: barber@barbershop.com / 123456");
             }
         };
     }

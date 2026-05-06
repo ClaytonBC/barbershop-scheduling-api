@@ -1,7 +1,7 @@
 package com.claytonbc.barbershop.enums;
 
 public enum Status {
-    PENDING,
+    SCHEDULED,
     CONFIRMED,
     CANCELLED,
     COMPLETED
