@@ -3,6 +3,7 @@ package com.claytonbc.barbershop.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,11 +22,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/customers").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/appointments").hasRole("CLIENT")
+                        .requestMatchers(HttpMethod.GET, "/appointments").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/appointments/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
