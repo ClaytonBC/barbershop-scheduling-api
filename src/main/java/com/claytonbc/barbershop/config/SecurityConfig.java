@@ -30,22 +30,25 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // AUTH (publico)
                         .requestMatchers("/auth/**").permitAll()
 
-                        // CUSTOMERS
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/customers").hasRole("OWNER")
                         .requestMatchers(HttpMethod.GET, "/customers").hasRole("OWNER")
                         .requestMatchers(HttpMethod.GET, "/customers/me").authenticated() // 🔥 EXPLÍCITO
                         .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
 
-                        // SERVICES
                         .requestMatchers(HttpMethod.GET, "/services").permitAll()
                         .requestMatchers(HttpMethod.POST, "/services").hasRole("OWNER")
                         .requestMatchers(HttpMethod.PUT, "/services/**").hasRole("OWNER")
                         .requestMatchers(HttpMethod.DELETE, "/services/**").hasRole("OWNER")
 
-                        // APPOINTMENTS
                         .requestMatchers(HttpMethod.GET, "/appointments")
                         .hasAnyRole("CLIENT", "OWNER")
 
@@ -61,7 +64,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/appointments/**")
                         .authenticated()
 
-                        // QUALQUER OUTRO
                         .anyRequest().authenticated()
                 )
 
