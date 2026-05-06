@@ -69,4 +69,11 @@ public class CustomerService {
                 customer.getRole()
         );
     }
+
+    public CustomerResponse findByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        return toResponse(customer);
+    }
 }

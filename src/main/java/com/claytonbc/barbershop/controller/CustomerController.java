@@ -3,6 +3,7 @@ import com.claytonbc.barbershop.dto.CustomerResponse;
 import com.claytonbc.barbershop.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,5 +29,10 @@ public class CustomerController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<CustomerResponse> me(Authentication auth) {
+        return ResponseEntity.ok(service.findByEmail(auth.getName()));
     }
 }
