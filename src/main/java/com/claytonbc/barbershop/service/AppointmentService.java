@@ -45,7 +45,7 @@ public class AppointmentService {
         boolean hasConflict = appointmentRepository
                 .existsByBarberIdAndStatusNotAndStartTimeLessThanAndEndTimeGreaterThan(
                         barber.getId(),
-                        Status.CANCELLED,
+                        Status.CANCELED,
                         request.endTime(),
                         request.startTime()
                 );
