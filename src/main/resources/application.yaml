@@ -1,8 +1,12 @@
 spring:
+  application:
+    name: barbershop-scheduling-api
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/barbershop
-    username: postgres
-    password: 123456
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -11,3 +15,4 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
