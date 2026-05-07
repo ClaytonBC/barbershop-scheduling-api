@@ -34,7 +34,7 @@ class CustomerControllerIntegrationTest {
     @Test
     void shouldFailWithoutToken() throws Exception {
         mockMvc.perform(get("/customers/me"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
