@@ -80,7 +80,7 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isConflict()); // 🔥 correto
+                .andExpect(status().isConflict());
     }
 
     @Test

@@ -75,7 +75,7 @@ class AppointmentControllerIntegrationTest {
         Customer barber = new Customer();
         barber.setName("Barber");
         barber.setEmail("barber@email.com");
-        barber.setPassword("123"); // não precisa encode no teste direto
+        barber.setPassword("123");
         barber.setRole(Perfil.BARBER);
         barber.setActive(true);
 
@@ -122,7 +122,7 @@ class AppointmentControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isCreated()); // 🔥 ESSENCIAL
+                .andExpect(status().isCreated());
 
         mockMvc.perform(get("/appointments")
                         .header("Authorization", "Bearer " + token))
@@ -148,7 +148,7 @@ class AppointmentControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isCreated()) // 🔥 ESSENCIAL
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();

@@ -171,7 +171,7 @@ class AppointmentServiceTest {
         when(appointmentRepository.findById(1L)).thenReturn(Optional.of(appointment));
         when(appointmentRepository.save(any())).thenReturn(appointment);
 
-        var response = service.updateStatus(1L, Status.CANCELLED);
+        var response = service.updateStatus(1L, Status.CANCELED);
 
         assertNotNull(response);
         verify(appointmentRepository).save(appointment);
